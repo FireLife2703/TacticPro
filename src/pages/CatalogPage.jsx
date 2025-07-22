@@ -1,17 +1,20 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import products from "../data/products_with_all_images.json";
-import ProductCard from "../components/ProductCard";
+import products from "../products_with_categories.json";
 
 export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Получаем фильтры из URL
   const selectedBrands = searchParams.get("brand") || "Всі";
   const selectedCategories = searchParams.getAll("category") || [];
+  const search = searchParams.get("search") || "";
+  const sortOrder = searchParams.get("sort") || "asc";
 
-  const [search, setSearch] = useState("");
+  // Вспомогательные состояния для ctrl+input
+  const [searchInput, setSearchInput] = useState(search);
 
-  const [sortOrder, setSortOrder] = useState("asc");
-
+  // Категории и бренды
   const categories = useMemo(() => {
     const set = new Set();
     products.forEach(p => {
@@ -30,6 +33,7 @@ export default function CatalogPage() {
     return ["Всі", ...Array.from(set).sort()];
   }, []);
 
+  // Фильтрация товаров
   const filtered = useMemo(() => {
     return products
       .filter(p => {
@@ -51,10 +55,46 @@ export default function CatalogPage() {
       });
   }, [search, selectedCategories, selectedBrands, sortOrder]);
 
+  // Сохраняем выбранные категории в URL
   const toggleCategory = (cat) => {
-    setSelectedCategories(prev =>
-      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
-    );
+    let newCategories = selectedCategories.includes(cat)
+      ? selectedCategories.filter(c => c !== cat)
+      : [...selectedCategories, cat];
+
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      params.delete("category");
+      newCategories.forEach(c => params.append("category", c));
+      return params;
+    });
+  };
+
+  // Бренд в URL
+  const handleBrandChange = (b) => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      params.set("brand", b);
+      return params;
+    });
+  };
+
+  // Поиск в URL
+  const handleSearchChange = (text) => {
+    setSearchInput(text);
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      params.set("search", text);
+      return params;
+    });
+  };
+
+  // Сортировка в URL
+  const handleSortChange = (val) => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      params.set("sort", val);
+      return params;
+    });
   };
 
   return (
@@ -80,7 +120,7 @@ export default function CatalogPage() {
           <h3 className="font-semibold mb-2">Виробник</h3>
           <select
             value={selectedBrands}
-            onChange={e => setSelectedBrands(e.target.value)}
+            onChange={e => handleBrandChange(e.target.value)}
             className="p-2 border rounded w-full text-black"
           >
             {brands.map(b => (
@@ -94,13 +134,14 @@ export default function CatalogPage() {
         <div className="flex flex-col md:flex-row gap-4 justify-between mb-6">
           <input
             type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
+            value={searchInput}
+            onChange={e => handleSearchChange(e.target.value)}
             placeholder="Пошук по назві..."
             className="p-2 border rounded w-full md:max-w-sm text-black"
           />
           <select
-            onChange={(e) => setSortOrder(e.target.value)}
+            value={sortOrder}
+            onChange={e => handleSortChange(e.target.value)}
             className="p-2 border rounded text-black"
           >
             <option value="asc">Ціна: від низької до високої</option>
@@ -108,9 +149,13 @@ export default function CatalogPage() {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filtered.map(product => (
-            <ProductCard key={product.id} product={product} />
+            // Тут используй свою карточку товара, как раньше
+            <div key={product.id} className="border rounded p-4 bg-white text-black">
+              <h2 className="font-bold">{product.name}</h2>
+              {/* ...другие поля */}
+            </div>
           ))}
         </div>
       </main>
