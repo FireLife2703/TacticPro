@@ -1,0 +1,37 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tactical Shop</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-cover bg-center min-h-screen" style="background-image: url('https://ru.files.fm/thumb_show.php?i=3uqqrd3va2#/tactical-shop/src/assets/фон.jpg')">
+  <div id="root"></div>
+  <script type="text/babel">
+    function App() {
+      return (
+        <div className="container mx-auto px-4">
+          <header className="py-4">
+            <img 
+              src="https://ru.files.fm/thumb_show.php?i=3uqqrd3va2#/tactical-shop/src/assets/Logo.png" 
+              alt="Tactical Shop Logo" 
+              className="h-16 w-auto"
+            />
+          </header>
+          <main>
+            <h1 className="text-2xl text-white">Добро пожаловать в Tactical Shop</h1>
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
+```

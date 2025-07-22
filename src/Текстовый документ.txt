@@ -1,0 +1,8 @@
+<xaiArtifact artifact_id="621bf82c-02db-40d8-bc0b-15bc28318796" artifact_version_id="ed4ced07-c40b-495b-9596-44a1ed8522a1" title="App.css" contentType="text/css">
+```css
+body {
+  background-image: url('/assets/фон.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}

@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Фон сайта */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: url('./assets/background.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  background-color: #4b5320; /* хаки fallback */
+  color: #f0f0f0;
+}
+
+/* Обнуляем отступы */
+* {
+  box-sizing: border-box;
+}
+
+/* Ссылки */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Контейнеры */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Для полупрозрачных блоков */
+.bg-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+/* Заголовки */
+h1, h2, h3 {
+  color: #fff;
+}
